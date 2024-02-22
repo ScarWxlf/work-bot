@@ -13,7 +13,7 @@ const workuaJS = "https://www.work.ua/jobs-remote-javascript/";
 var lastJobDjini = "0";
 var lastJobWorkUAFront = "0";
 var lastJobWorkUAJS = "0";
-const chat = 655526453;
+const chat = process.env.CHAT;
 
 
 getJobsDJINNI();
