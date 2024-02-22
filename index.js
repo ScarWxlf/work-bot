@@ -8,14 +8,18 @@ env.config();
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 const djinni = "https://djinni.co/jobs/?primary_keyword=JavaScript&exp_level=1y";
-const workua = "https://www.work.ua/jobs-remote-front-end+%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D1%96%D1%81%D1%82/";
-var lastJob = "0";
-var lastJobWorkua = "0";
+const workuaFront = "https://www.work.ua/jobs-remote-front-end/";
+const workuaJS = "https://www.work.ua/jobs-remote-javascript/";
+var lastJobDjini = "0";
+var lastJobWorkUAFront = "0";
+var lastJobWorkUAJS = "0";
 const chat = 655526453;
 
 
 getJobsDJINNI();
-getJobsFromWORKUA();
+getJobsFromWorkUAFront();
+getJobsFromWorkUAJS();
+
 async function getJobsDJINNI() {
     const result = await axios.get(djinni);
     const data = result.data;
@@ -24,38 +28,52 @@ async function getJobsDJINNI() {
     const link = $(jobs[0]).find(".job-list-item__link").attr("href");
     const id = $(jobs[0]).attr("id");
     
-    if (lastJob !== id) {
-        lastJob = id;
+    if (lastJobDjini !== id) {
+        lastJobDjini = id;
         bot.sendMessage(chat, "https://djinni.co" + link);
     }
-    console.log(id, link)
+    //console.log(id, link)
     setTimeout(() => {
         getJobsDJINNI();
     }, 5000);
 }
 
-async function getJobsFromWORKUA() {
-    const result = await axios.get(workua);
+async function getJobsFromWorkUAFront() {
+    const result = await axios.get(workuaFront);
     const data = result.data;
     const $ = cheerio.load(data);
     const jobs = $(".job-link");
     const link_id = $(jobs[0]).prev().attr("name");
-    if (lastJobWorkua !== link_id) {
-        lastJobWorkua = link_id;
+    if (lastJobWorkUAFront !== link_id) {
+        lastJobWorkUAFront = link_id;
         bot.sendMessage(chat, "https://www.work.ua/jobs/" + link_id);
     }
-    console.log(link_id)
+    //console.log(link_id)
     setTimeout(() => {
-        getJobsFromWORKUA();
-    }, 5000);
-    // const link = $(jobs[0]).find(".job-list-item__link").attr("href");
-    // const id = $(jobs[0]).attr("id");
+        getJobsFromWorkUAFront();
+    }, 7000);
 }
 
-// function sendMessage(job) {
-//     bot.on("message", (msg) => {
-//         const chatId = msg.chat.id;
-//         console.log(chatId)
-//         bot.sendMessage(chat, "https://djinni.co" + job);
-//     });
-// }
+async function getJobsFromWorkUAJS() {
+    const result = await axios.get(workuaJS);
+    const data = result.data;
+    const $ = cheerio.load(data);
+    const jobs = $(".job-link");
+    const link_id = $(jobs[0]).prev().attr("name");
+    if (lastJobWorkUAJS !== link_id) {
+        lastJobWorkUAJS = link_id;
+        bot.sendMessage(chat, "https://www.work.ua/jobs/" + link_id);
+    }
+    //console.log(link_id)
+    setTimeout(() => {
+        getJobsFromWorkUAJS();
+    }, 7000);
+}
+
+bot.on("message", (msg) => {
+    const chatId = msg.chat.id;
+    if(msg.text === "/try")
+    {
+        bot.sendMessage(chat, "okey");
+    }
+});
