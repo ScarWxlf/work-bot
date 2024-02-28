@@ -35,7 +35,7 @@ async function getJobsDJINNI() {
     //console.log(id, link)
     setTimeout(() => {
         getJobsDJINNI();
-    }, 5000);
+    }, 10000);
 }
 
 async function getJobsFromWorkUAFront() {
@@ -51,7 +51,7 @@ async function getJobsFromWorkUAFront() {
     //console.log(link_id)
     setTimeout(() => {
         getJobsFromWorkUAFront();
-    }, 7000);
+    }, 10000);
 }
 
 async function getJobsFromWorkUAJS() {
@@ -67,7 +67,7 @@ async function getJobsFromWorkUAJS() {
     //console.log(link_id)
     setTimeout(() => {
         getJobsFromWorkUAJS();
-    }, 7000);
+    }, 10000);
 }
 
 bot.on("message", (msg) => {
