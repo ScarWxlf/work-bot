@@ -36,7 +36,7 @@ async function getJobsDJINNI() {
     //console.log(id, link)
     setTimeout(() => {
       getJobsDJINNI();
-    }, 10000);
+    }, 20000);
   } catch (error) {
     console.log(error);
   }
@@ -56,7 +56,7 @@ async function getJobsFromWorkUAFront() {
     //console.log(link_id)
     setTimeout(() => {
       getJobsFromWorkUAFront();
-    }, 10000);
+    }, 20000);
   } catch (error) {
     console.log(error);
   }
@@ -76,15 +76,19 @@ async function getJobsFromWorkUAJS() {
     //console.log(link_id)
     setTimeout(() => {
       getJobsFromWorkUAJS();
-    }, 10000);
+    }, 20000);
   } catch (error) {
     console.log(error);
   }
 }
 
 bot.on("message", (msg) => {
-  const chatId = msg.chat.id;
-  if (msg.text === "/try") {
-    bot.sendMessage(chat, "okey");
+  try {
+    const chatId = msg.chat.id;
+    if (chatId==chat && msg.text === "/try") {
+      bot.sendMessage(chat, "okey");
+    }
+  } catch (error) {
+    console.log(error)
   }
 });
